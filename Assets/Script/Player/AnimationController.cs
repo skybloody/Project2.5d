@@ -9,10 +9,19 @@ public class AnimationController : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.LogError("Animator not assigned.");
+        }
     }
 
     private void Update()
     {
+        if (anim == null)
+        {
+            return;
+        }
+
         float HInput = Input.GetAxisRaw("Horizontal");
         float VInput = Input.GetAxisRaw("Vertical");
 
@@ -21,13 +30,13 @@ public class AnimationController : MonoBehaviour
         anim.SetFloat("Vertical", VInput);
 
         // Set the latest movement direction for the animator
-        if (HInput != 0 || VInput != 0)
+        if (!Mathf.Approximately(HInput, 0) || !Mathf.Approximately(VInput, 0))
         {
             anim.SetFloat("LastHorizontal", HInput);
             anim.SetFloat("LastVertical", VInput);
         }
 
         // Set walk animation
-        anim.SetBool("IsWalking", HInput != 0 || VInput != 0);
+        anim.SetBool("IsWalking", !Mathf.Approximately(HInput, 0) || !Mathf.Approximately(VInput, 0));
     }
 }
