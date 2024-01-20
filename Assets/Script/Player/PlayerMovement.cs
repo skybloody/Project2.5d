@@ -1,42 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody theRB;
-    public float moveSpeed, jumpForce;
-    private Vector2 moveInput;
-    public LayerMask whatIsGround;
-    public Transform groundPoint;
-    private bool isGrounded;
+    public Rigidbody RB;
+    private float moveSpeed = 2;
+    private int CrouchSpeed = 1;
 
-
-     void Start()
+    private void Start()
     {
-  
+        RB = GetComponent<Rigidbody>();
     }
 
-     void Update()
+    private void Update()
     {
-        moveInput.y = Input.GetAxis("Vertical");
-        moveInput.x = Input.GetAxis("Horizontal");
-        moveInput.Normalize();
+        MovementCharacter();
+        Crouch();
+    }
 
-        theRB.velocity = new Vector3(moveInput.x * moveSpeed, theRB.velocity.y, moveInput.y * moveSpeed);
-       
-        RaycastHit hit;
-        if (Physics.Raycast(groundPoint.position, Vector3.down, out hit, .3f, whatIsGround))
+    void MovementCharacter()
+    {
+        float HInput = Input.GetAxisRaw("Horizontal");
+        float VInput = Input.GetAxisRaw("Vertical");
+
+        RB.velocity = new Vector3(HInput * moveSpeed, 0, VInput * moveSpeed);
+
+        // Flip the character if moving to the left
+        if (HInput < 0)
         {
-            isGrounded = true;
+            transform.localScale = new Vector3(-1, 1, 1);
         }
-        else
+        // Reset the scale if moving to the right
+        else if (HInput > 0)
         {
-            isGrounded = false;
+            transform.localScale = new Vector3(1, 1, 1);
         }
-        if (Input.GetButtonDown("Jump") && isGrounded)
+    }
+
+    void Crouch()
+    {
+        if (Input.GetKey(KeyCode.G))
+        {
+            moveSpeed = CrouchSpeed;
+        }
+        else 
         { 
-         theRB.velocity += new Vector3(0f, jumpForce, 0f); 
+            moveSpeed = 2;
         }
     }
 }
