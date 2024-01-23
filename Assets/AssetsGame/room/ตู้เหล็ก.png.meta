@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a02f6b7dfbc380d47a659439e6729b83
+guid: bcd3d92b92f0edc4ca8181568c12fce6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -35,7 +35,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 1
-    aniso: 1
+    aniso: 2
     mipBias: 0
     wrapU: 1
     wrapV: 1
@@ -149,34 +149,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: glass box_0
+      name: "\u0E15\u0E39\u0E49\u0E40\u0E2B\u0E25\u0E47\u0E01_0"
       rect:
         serializedVersion: 2
-        x: 684
-        y: 346
-        width: 534
-        height: 442
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 3, y: 82, z: 32, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e9855b2578d97ce4bb0382ba2462c543
-      internalID: 486827132
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: glass box_1
-      rect:
-        serializedVersion: 2
-        x: 1247
-        y: 517
-        width: 9
-        height: 7
+        x: 772
+        y: 245
+        width: 433
+        height: 504
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,29 +163,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f92da659cff44245b450915f66bc5d8
-      internalID: 225985638
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: glass box_2
-      rect:
-        serializedVersion: 2
-        x: 847
-        y: 246
-        width: 83
-        height: 88
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a842c8d7a3c189242bfcd64e3e347e1e
-      internalID: 2123071617
+      spriteID: b6a41ebd6175a1c4b948b5841e422889
+      internalID: -1004273593
       vertices: []
       indices: 
       edges: []
@@ -214,7 +172,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 66206bce39cdba24eb449b544b3af42a
+    spriteID: 6b267d54e0d2fcc4db78e123b00612bf
     internalID: 0
     vertices: []
     indices: 
@@ -222,9 +180,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      glass box_0: 486827132
-      glass box_1: 225985638
-      glass box_2: 2123071617
+      "\u0E15\u0E39\u0E49\u0E40\u0E2B\u0E25\u0E47\u0E01_0": -1004273593
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
