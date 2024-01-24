@@ -5,36 +5,65 @@ using UnityEngine.UI;
 
 public class StaminaBar : MonoBehaviour
 {
-    private float maxStamina = 100.0f;
-    private float currentStamina;
+    public Slider staminaBar;
+    private int maxStamina = 250;
+    public int currentStamina;
+    private WaitForSeconds regenTick = new WaitForSeconds(0.1f);
+    private Coroutine regen;
+    public static StaminaBar instance;
 
-    private float staminaRegenRate = 10.0f;
-    private float staminaRegenDelay = 2.0f;
-    private float timeSinceLastStaminaRegen;
+    public Vector3 offset;
+    public Transform player;
+    float currentVelocity = 0;
 
-    public float CurrentStamina
+    private void Awake()
     {
-        get { return currentStamina; }
+        instance = this;
     }
 
-    private void Start()
+    void Start()
     {
+        staminaBar.gameObject.SetActive(false);
         currentStamina = maxStamina;
+        staminaBar.maxValue = maxStamina;
+        staminaBar.value = maxStamina;
+    }
+    private void Update()
+    {
+        float maxStamina = Mathf.SmoothDamp(staminaBar.value, staminaBar.maxValue, ref currentVelocity, 100 * Time.deltaTime);
+        staminaBar.gameObject.SetActive(true);
     }
 
-    public void ReduceStamina(float amount)
+    public void UseStamina(int amount)
     {
-        currentStamina -= amount;
-        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
-        timeSinceLastStaminaRegen = 0.0f;
-    }
-
-    public void RegenerateStamina()
-    {
-        if (Time.time - timeSinceLastStaminaRegen > staminaRegenDelay && currentStamina < maxStamina)
+        if (currentStamina - amount >= 0)
         {
-            currentStamina += staminaRegenRate * Time.deltaTime;
-            currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+            currentStamina -= amount;
+            staminaBar.value = currentStamina;
+
+
+            staminaBar.gameObject.SetActive(true);
+
+            if (regen != null)
+                StopCoroutine(regen);
+
+            regen = StartCoroutine(RegenStamina());
         }
+    }
+
+    public IEnumerator RegenStamina()
+    {
+        yield return new WaitForSeconds(2);
+
+        while (currentStamina < maxStamina)
+        {
+            currentStamina += maxStamina / 20;
+            staminaBar.value = currentStamina;
+
+
+            staminaBar.gameObject.SetActive(currentStamina < maxStamina);
+            yield return regenTick;
+        }
+        regen = null;
     }
 }

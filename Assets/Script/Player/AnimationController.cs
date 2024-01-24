@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     public Animator anim;
+    public PlayerMovement playermovement;
 
     private void Start()
     {
@@ -38,5 +39,17 @@ public class AnimationController : MonoBehaviour
 
         // Set walk animation
         anim.SetBool("IsWalking", !Mathf.Approximately(HInput, 0) || !Mathf.Approximately(VInput, 0));
+        UpdateAnimator();
+    }
+    private void UpdateAnimator()
+    {
+        if (playermovement.isSprinting && playermovement.staminaBar.currentStamina > 0)
+        {
+            anim.SetBool("IsSprinting", true);
+        }
+        else
+        {
+            anim.SetBool("IsSprinting", false);
+        }
     }
 }

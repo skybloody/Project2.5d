@@ -6,26 +6,26 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody RB;
-    private float moveSpeed = 2;
-    private int crouchSpeed = 1;
-    private AnimationController animationController;
+    public float moveSpeed = 2;
+    public float SuperSpeed = 4;
+    public float CrouchSpeed = 1f;
 
-    public Animator anim;
+    public bool isCrouching = false;
+    public bool isSprinting = false;
 
-    private StaminaBar staminaSystem;
+    public bool IsSprinting => isSprinting;
+    public StaminaBar staminaBar;
 
     private void Start()
     {
         RB = GetComponent<Rigidbody>();
-        staminaSystem = GetComponent<StaminaBar>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MovementCharacter();
         Crouch();
         Run();
-        staminaSystem.RegenerateStamina();
     }
 
     void MovementCharacter()
@@ -33,50 +33,51 @@ public class PlayerMovement : MonoBehaviour
         float HInput = Input.GetAxisRaw("Horizontal");
         float VInput = Input.GetAxisRaw("Vertical");
 
-        if (staminaSystem.CurrentStamina > 0)
-        {
-            RB.velocity = new Vector3(HInput * moveSpeed, 0, VInput * moveSpeed);
 
-            if (Mathf.Abs(HInput) > 0 || Mathf.Abs(VInput) > 0)
-            {
-                staminaSystem.ReduceStamina(0.1f);
-            }
-        }
+        RB.velocity = new Vector3(HInput * moveSpeed * Time.fixedDeltaTime, 0, VInput * moveSpeed * Time.fixedDeltaTime);
 
+
+
+
+        // Flip the character if moving to the left
         if (HInput < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
+        // Reset the scale if moving to the right
         else if (HInput > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
+
     }
 
     void Crouch()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.F))
         {
-            moveSpeed = crouchSpeed;
+            moveSpeed = CrouchSpeed;
+            isCrouching = true;
         }
         else
         {
             moveSpeed = 2;
+            isCrouching = false;
         }
     }
 
     void Run()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && staminaSystem.CurrentStamina > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && staminaBar.currentStamina > 0)
         {
-            staminaSystem.ReduceStamina(0.2f);
-            moveSpeed = 5;
-            anim.SetBool("IsRunning", true);
+            staminaBar.UseStamina(1);
+            moveSpeed = SuperSpeed;
+            isSprinting = true;
         }
         else
         {
             moveSpeed = 2;
-            anim.SetBool("IsRunning", false);
+            isSprinting = false;
         }
     }
 }
